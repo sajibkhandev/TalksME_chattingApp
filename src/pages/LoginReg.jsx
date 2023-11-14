@@ -1,7 +1,21 @@
 import React, { useState } from 'react'
 import {FaGooglePlusG,FaFacebookF,FaGithub,FaLinkedinIn} from 'react-icons/fa'
+import {toast } from 'react-toastify';
+
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
 const LoginReg = () => {
+  const auth = getAuth();
+  let navigate=useNavigate()
+
+  let [email,setEmail]=useState("")
+  let [name,setName]=useState("")
+  let [password,setPassword]=useState("")
+
+  let [email2,setEmail2]=useState("")
+  let [password2,setPassword2]=useState("")
+
   let [active,setActive]=useState(false)
   let handleSignup=()=>{
     setActive(true)
@@ -10,14 +24,134 @@ const LoginReg = () => {
     setActive(false)
   }
 
+  let emailVil=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+  let lowerChar=/^(?=.*[a-z])/
+   let upperChar=/^(?=.*[A-Z])/
+   let number=/^(?=.*[0-9])/
+   let specil=/^(?=.*[!@#$%^&*])/
+   let minMax=/^(?=.{8,})/
+
+  let handleSignupForm=()=>{
+
+    if(!email){
+      toast.error("Enter your Email")
+    }else if(!emailVil.test(email)){
+      toast.error("Enter your Valid Email")
+    }else if(!name){
+      toast.error("Enter your Full Name")
+    }else if(!password){
+      toast.error("Enter your Password")
+    }else if(!lowerChar.test(password)){
+      toast.error("Lower Case Must");
+    }else if(!upperChar.test(password)){
+      toast.error("Upper Case Must");
+    }else if(!number.test(password)){
+      toast.error("Number Must");
+    }else if(!specil.test(password)){
+      toast.error("Specil charator Must");
+    }else if(!minMax.test(password)){
+      toast.error("min-8 max-16");
+    }else{
+      createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    console.log(userCredential);
+    sendEmailVerification(auth.currentUser)
+  .then(() => {
+    setEmail("")
+    setName("")
+    setPassword("")
+    setActive(false)
+  });
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    console.log(errorCode);
+    if(errorCode.includes("email")){
+      toast.error("Email already in use")
+    }
+  });
+    }
+
+  }
+  //?//////// LogIn Start//////////
+
+  let handleSignInForm=()=>{
+    if(!email2){
+      toast.error("Enter your Email")
+    }else if(!emailVil.test(email2)){
+      toast.error("Enter Valid Email")
+    }else if(!password2){
+      toast.error("Enter your Password")
+    }else if(!lowerChar.test(password2)){
+      toast.error("Lower Case Must");
+    }else if(!upperChar.test(password2)){
+      toast.error("Upper Case Must");
+    }else if(!number.test(password2)){
+      toast.error("Number Must");
+    }else if(!specil.test(password2)){
+      toast.error("Specil charator Must");
+    }else if(!minMax.test(password2)){
+      toast.error("min-8 max-16");
+    }else{
+      signInWithEmailAndPassword(auth, email2, password2)
+  .then((userCredential) => {
+    console.log(userCredential);
+    if(userCredential.user.emailVerified){
+      setEmail2("")
+    setPassword2("")
+    navigate("/home")
+    }else{
+      toast.error("Verify your Email")
+    }
+
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    console.log(errorCode);
+    if(errorCode.includes("invalid")){
+      toast.error("Invalid Credential")
+    }if(errorCode.includes("too")){
+      toast.error("Too many request try it later")
+    }
+  });
+    }
+  }
+  let hangleGoogle1=()=>{
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+  .then((result) => {
+    console.log(result);
+    navigate("/home")
+    
+  }).catch((error) => {
+    const errorCode = error.code;
+    console.log(errorCode);
+    
+  });
+  }
+  let handleGoogle2=()=>{
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+  .then((result) => {
+    console.log(result);
+    navigate("/home")
+    
+  }).catch((error) => {
+    const errorCode = error.code;
+    console.log(errorCode);
+    
+  });
+
+  }
+
   return (
     <div className='body '>
-        <div className={`container ${active?"active":""}`}>
+        <div className={`container rounded-lg  ${active?"active":""}`}>
           {/* Sign up start */}
             <div className='signup commomClass  flex justify-center items-center flex-col pl-8 pr-4'>
             <h1 className='text-center text-3xl text-black font-mon font-bold pb-6'>Sign Up</h1>
             <div className='flex gap-x-4 pb-4'>
-                <div className='border border-solid border-[#ccc] rounded-lg px-1.5 py-1.5'>
+                <div onClick={hangleGoogle1} className='border border-solid border-[#ccc] rounded-lg px-1.5 py-1.5'>
                 <FaGooglePlusG className='text-lg'/>
                 </div>
                 <div className='border border-solid border-[#ccc] rounded-lg px-2 py-1.5'>
@@ -31,11 +165,11 @@ const LoginReg = () => {
                 </div>
             </div>
             <p className='text-black text-sm font-normal font-mon pb-2'>or use your email for registeration</p>
-            <input className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Email'/>
-            <input className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Name'/>
-            <input className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Password'/>
-            <p className='text-black text-sm font-medium font-mon pt-3 pb-5'>Forget Your Password?</p>
-            <button className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md '>Sign Up</button>
+            <input onChange={(e)=>setEmail(e.target.value)} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="text" placeholder='Email'/>
+            <input onChange={(e)=>setName(e.target.value)} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="text" placeholder='Name'/>
+            <input onChange={(e)=>setPassword(e.target.value)} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="password" placeholder='Password'/>
+            {/* <p className='text-black text-sm font-medium font-mon pt-3 pb-5'>Forget Your Password?</p> */}
+            <button onClick={handleSignupForm}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mt-4'>Sign Up</button>
             </div>
             {/* Sign up end */}
            
@@ -44,7 +178,7 @@ const LoginReg = () => {
             <h1 className=' text-center text-3xl text-black font-mon font-bold pb-6'>Sign In</h1>
             <div className='flex gap-x-4 pb-4'>
                 <div className='border border-solid border-[#ccc] rounded-lg px-1.5 py-1.5'>
-                <FaGooglePlusG className='text-lg'/>
+                <FaGooglePlusG onClick={handleGoogle2} className='text-lg'/>
                 </div>
                 <div className='border border-solid border-[#ccc] rounded-lg px-2 py-1.5'>
                 <FaFacebookF className='text-sm'/>
@@ -58,10 +192,10 @@ const LoginReg = () => {
             </div>
             
             <p className='text-black text-sm font-normal font-mon pb-2'>or use your email password</p>
-            <input className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Email'/>
-            <input className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Password'/>
+            <input onChange={(e)=>setEmail2(e.target.value)} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Email'/>
+            <input onChange={(e)=>setPassword2(e.target.value)} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="password" placeholder='Password'/>
             <p className='text-black text-sm font-medium font-mon pt-3 pb-5'>Forget Your Password?</p>
-            <button className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md '>Sign In</button>
+            <button onClick={handleSignInForm} className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md '>Sign In</button>
             </div>
             {/* Sign in end */}
             <div className='toggle-container'>

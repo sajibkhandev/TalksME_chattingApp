@@ -1,4 +1,6 @@
 import React from 'react'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   createRoutesFromElements,
   createBrowserRouter,
@@ -6,6 +8,7 @@ import {
   RouterProvider
 } from "react-router-dom";
 import LoginReg from './pages/LoginReg';
+import Home from './pages/Home';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,6 +17,10 @@ const router = createBrowserRouter(
       path="/"
       element={<LoginReg />}>  
       </Route>
+    <Route
+      path="/home"
+      element={<Home />}>  
+      </Route>
     
    </>
   )
@@ -21,7 +28,21 @@ const router = createBrowserRouter(
 
 const App = () => {
   return (
+    <>
+    <ToastContainer
+position="bottom-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
     <RouterProvider router={router} />
+    </>
   )
 }
 

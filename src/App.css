@@ -114,3 +114,7 @@
     transform: translateX(200%) !important;
 
 }
+.container button.janina{
+    background-color: transparent !important;
+    border-color: #fff !important;
+}
