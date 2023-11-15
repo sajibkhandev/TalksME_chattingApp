@@ -7,6 +7,7 @@
     align-items: center !important;
     flex-direction: column !important;
     height: 100vh !important;
+    
 }
 .container{
     width: 768px !important;
