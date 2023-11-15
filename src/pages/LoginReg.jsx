@@ -268,7 +268,7 @@ const LoginReg = () => {
      <div className='md:hidden'>
      <div className='flex justify-center items-center flex-col h-screen bg-[#c9d6ff] px-4'>
      <div className='bg-white flex justify-center items-center flex-col w-full rounded-lg px-6'>
-            <h1 className='text-center text-3xl text-black font-mon font-bold pb-8 pt-14'>Sign Up</h1>
+            <h1 className='text-center text-3xl text-black font-mon font-bold pb-7 pt-14'>Sign Up</h1>
             <div className='flex gap-x-4 pb-4'>
                 <div onClick={hangleGoogle1} className='border border-solid border-[#ccc] rounded-lg px-1.5 py-1.5'>
                 <FaGooglePlusG className='text-lg'/>
@@ -284,9 +284,9 @@ const LoginReg = () => {
                 </div>
             </div>
             <p className='text-black text-sm font-normal font-mon pb-4'>or use your email for registeration</p>
-            <input onChange={(e)=>setEmail(e.target.value)} value={email} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Email'/>
-            <input onChange={(e)=>setName(e.target.value)} value={name} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Name'/>
-            <input onChange={(e)=>setPassword(e.target.value)} value={password} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="password" placeholder='Password'/>
+            <input onChange={(e)=>setEmail(e.target.value)} value={email} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded placeholder:text-sm ' type="text" placeholder='Email'/>
+            <input onChange={(e)=>setName(e.target.value)} value={name} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded placeholder:text-sm ' type="text" placeholder='Name'/>
+            <input onChange={(e)=>setPassword(e.target.value)} value={password} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded placeholder:text-sm ' type="password" placeholder='Password'/>
             {/* <p className='text-black text-sm font-medium font-mon pt-3 pb-5'>Forget Your Password?</p> */}
             {loader?
             <button>
@@ -303,8 +303,9 @@ const LoginReg = () => {
               />
             </button>
             :
-            <button onClick={handleSignupForm}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mb-10 mt-4'>Sign Up</button>
+            <button onClick={handleSignupForm}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mb-4 mt-4'>Sign Up</button>
             }
+            <p className='mb-10 text-sm'>Already have an account ? <span className='text-red-500 cursor-pointer'>Sign In</span></p>
             
             </div>
       </div>
