@@ -303,9 +303,9 @@ const LoginReg = () => {
               />
             </button>
             :
-            <button onClick={handleSignupForm}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mb-4 mt-4'>Sign Up</button>
+            <button onClick={handleSignupForm}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mb-5 mt-5'>Sign Up</button>
             }
-            <p className='mb-10 text-sm'>Already have an account ? <span className='text-red-500 cursor-pointer'>Sign In</span></p>
+            <p className='mb-12 text-xs text-black font-mon font-normal'>Already have an account ? <span className='text-red-700 cursor-pointer text-xs font-semibold'>Sign In</span></p>
             
             </div>
       </div>
