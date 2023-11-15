@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {FaGooglePlusG,FaFacebookF,FaGithub,FaLinkedinIn} from 'react-icons/fa'
 import {toast } from 'react-toastify';
+import { Bars } from 'react-loader-spinner'
 
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginReg = () => {
   const auth = getAuth();
   let navigate=useNavigate()
+  let [loader,setLoader]=useState(false)
 
   let [email,setEmail]=useState("")
   let [name,setName]=useState("")
@@ -52,6 +54,7 @@ const LoginReg = () => {
     }else if(!minMax.test(password)){
       toast.error("min-8 max-16");
     }else{
+      setLoader(true)
       createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     console.log(userCredential);
@@ -61,11 +64,13 @@ const LoginReg = () => {
     setName("")
     setPassword("")
     setActive(false)
+    setLoader(false)
   });
   })
   .catch((error) => {
     const errorCode = error.code;
     console.log(errorCode);
+    setLoader(false)
     if(errorCode.includes("email")){
       toast.error("Email already in use")
     }
@@ -93,21 +98,25 @@ const LoginReg = () => {
     }else if(!minMax.test(password2)){
       toast.error("min-8 max-16");
     }else{
+      setLoader(true)
       signInWithEmailAndPassword(auth, email2, password2)
   .then((userCredential) => {
     console.log(userCredential);
     if(userCredential.user.emailVerified){
       setEmail2("")
-    setPassword2("")
-    navigate("/home")
+      setPassword2("")
+      navigate("/home")
+      setLoader(false)
     }else{
       toast.error("Verify your Email")
+      setLoader(false)
     }
 
   })
   .catch((error) => {
     const errorCode = error.code;
     console.log(errorCode);
+    setLoader(false)
     if(errorCode.includes("invalid")){
       toast.error("Invalid Credential")
     }if(errorCode.includes("too")){
@@ -165,11 +174,28 @@ const LoginReg = () => {
                 </div>
             </div>
             <p className='text-black text-sm font-normal font-mon pb-2'>or use your email for registeration</p>
-            <input onChange={(e)=>setEmail(e.target.value)} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="text" placeholder='Email'/>
-            <input onChange={(e)=>setName(e.target.value)} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="text" placeholder='Name'/>
-            <input onChange={(e)=>setPassword(e.target.value)} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="password" placeholder='Password'/>
+            <input onChange={(e)=>setEmail(e.target.value)} value={email} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="text" placeholder='Email'/>
+            <input onChange={(e)=>setName(e.target.value)} value={name} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="text" placeholder='Name'/>
+            <input onChange={(e)=>setPassword(e.target.value)} value={password} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="password" placeholder='Password'/>
             {/* <p className='text-black text-sm font-medium font-mon pt-3 pb-5'>Forget Your Password?</p> */}
+            {loader?
+            <button>
+              <Bars
+                height="30"
+                width="80"
+                color="blue"
+                ariaLabel="bars-loading"
+                wrapperStyle={{
+                marginTop:"15px",
+                }}
+                wrapperClass=""
+                visible={true}
+              />
+            </button>
+            :
             <button onClick={handleSignupForm}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mt-4'>Sign Up</button>
+            }
+            
             </div>
             {/* Sign up end */}
            
@@ -192,10 +218,24 @@ const LoginReg = () => {
             </div>
             
             <p className='text-black text-sm font-normal font-mon pb-2'>or use your email password</p>
-            <input onChange={(e)=>setEmail2(e.target.value)} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Email'/>
-            <input onChange={(e)=>setPassword2(e.target.value)} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="password" placeholder='Password'/>
+            <input onChange={(e)=>setEmail2(e.target.value)} value={email2} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Email'/>
+            <input onChange={(e)=>setPassword2(e.target.value)} value={password2} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="password" placeholder='Password'/>
             <p className='text-black text-sm font-medium font-mon pt-3 pb-5'>Forget Your Password?</p>
+            {loader?
+            <button>
+            <Bars
+              height="30"
+              width="80"
+              color="blue"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+            />
+          </button>
+            :
             <button onClick={handleSignInForm} className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md '>Sign In</button>
+            }
             </div>
             {/* Sign in end */}
             <div className='toggle-container'>
