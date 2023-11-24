@@ -34,7 +34,7 @@ const LoginReg = () => {
    let specil=/^(?=.*[!@#$%^&*])/
    let minMax=/^(?=.{8,})/
 
-  let handleSignupForm=()=>{
+  let handleSignupForm=(ache)=>{
 
     if(!email){
       toast.error("Enter your Email")
@@ -64,8 +64,14 @@ const LoginReg = () => {
     setEmail("")
     setName("")
     setPassword("")
-    setActive(false)
     setLoader(false)
+    // for responseive
+    if(ache=="ache"){
+      setCondition(false)
+    }else{
+      setActive(false)
+    }
+    // for responseive
     
   });
   })
@@ -198,7 +204,7 @@ const LoginReg = () => {
               />
             </button>
             :
-            <button onClick={handleSignupForm}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mt-4'>Sign Up</button>
+            <button onClick={()=>handleSignupForm("")}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mt-4'>Sign Up</button>
             }
             
             </div>
@@ -264,11 +270,6 @@ const LoginReg = () => {
     </div>
      {/* For mobile */}
      
-     
-     
-
-     
-     
      {condition?
      <div className='md:hidden'>
       {/* Sign up */}
@@ -298,7 +299,7 @@ const LoginReg = () => {
             <button><Bars height="27"  width="80" color="blue" ariaLabel="bars-loading" wrapperStyle={{marginTop:"15px",marginBottom:"20px",}} wrapperClass="" visible={true}/>
             </button>
             :
-            <button onClick={handleSignupForm}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mb-6 mt-5'>Sign Up</button>
+            <button onClick={()=>handleSignupForm("ache")}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mb-6 mt-5'>Sign Up</button>
             }
             <p className='mb-12 text-xs text-black font-mon font-medium'>Already have an account ? <span onClick={()=>setCondition(false)} className='text-[#EA6C4B] cursor-pointer text-xs font-semibold'>Sign In</span></p>
             
