@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {FaGooglePlusG,FaFacebookF,FaGithub,FaLinkedinIn} from 'react-icons/fa'
 import {toast } from 'react-toastify';
 import { Bars } from 'react-loader-spinner'
+import { LuEye } from "react-icons/lu";
+import { LuEyeOff } from "react-icons/lu";
+
 
 import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { activeuser } from '../slices/userSlice';
 
 const LoginReg = () => {
   const auth = getAuth();
+  let dispatch=useDispatch()
+  let data=useSelector((state)=>(state.sajib.value))
+
   let navigate=useNavigate()
   let [loader,setLoader]=useState(false)
   let [condition,setCondition]=useState(false)
@@ -18,6 +26,8 @@ const LoginReg = () => {
 
   let [email2,setEmail2]=useState("")
   let [password2,setPassword2]=useState("")
+
+  let [eye,setEye]=useState(false)
 
   let [active,setActive]=useState(false)
   let handleSignup=()=>{
@@ -72,7 +82,6 @@ const LoginReg = () => {
       setActive(false)
     }
     // for responseive
-    
   });
   })
   .catch((error) => {
@@ -84,7 +93,6 @@ const LoginReg = () => {
     }
   });
     }
-
   }
   //?//////// LogIn Start//////////
 
@@ -107,9 +115,10 @@ const LoginReg = () => {
       toast.error("min-8 max-16");
     }else{
       setLoader(true)
-      signInWithEmailAndPassword(auth, email2, password2)
-  .then((userCredential) => {
-    console.log(userCredential);
+      signInWithEmailAndPassword(auth, email2, password2).then((userCredential) => {
+        // console.log(userCredential.user);
+        dispatch(activeuser(userCredential.user))
+        localStorage.setItem("users",JSON.stringify(userCredential.user))
     if(userCredential.user.emailVerified){
       setEmail2("")
       setPassword2("")
@@ -119,7 +128,6 @@ const LoginReg = () => {
       toast.error("Verify your Email")
       setLoader(false)
     }
-
   })
   .catch((error) => {
     const errorCode = error.code;
@@ -139,11 +147,11 @@ const LoginReg = () => {
   .then((result) => {
     console.log(result);
     navigate("/home")
-    
+    dispatch(activeuser(result.user))
+    localStorage.setItem("users",JSON.stringify(result.user))
   }).catch((error) => {
     const errorCode = error.code;
     console.log(errorCode);
-    
   });
   }
   let handleGoogle2=()=>{
@@ -152,15 +160,24 @@ const LoginReg = () => {
   .then((result) => {
     console.log(result);
     navigate("/home")
-    
+    dispatch(activeuser(result.user))
+    localStorage.setItem("users",JSON.stringify(result.user))
   }).catch((error) => {
     const errorCode = error.code;
     console.log(errorCode);
-    
   });
-
   }
-
+  let handleEye2=()=>{
+    setEye(false)
+  }
+  let handleEye1=()=>{
+    setEye(true)
+  }
+ useEffect(()=>{
+  if(data!=null){
+    navigate('/home')
+  }
+ },[])
   return (
     <>
     {/* For Desktop */}
@@ -185,9 +202,17 @@ const LoginReg = () => {
                 </div>
             </div>
             <p className='text-black text-sm font-normal font-mon pb-2'>or use your email for registeration</p>
+            
             <input onChange={(e)=>setEmail(e.target.value)} value={email} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="text" placeholder='Email'/>
             <input onChange={(e)=>setName(e.target.value)} value={name} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="text" placeholder='Name'/>
-            <input onChange={(e)=>setPassword(e.target.value)} value={password} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type="password" placeholder='Password'/>
+            <div className='relative w-full'>
+            <input onChange={(e)=>setPassword(e.target.value)} value={password} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-1.5 rounded ' type={eye?"text":"password"} placeholder='Password'/>
+            {eye?
+            <LuEyeOff onClick={handleEye2} className='absolute top-[17px] right-[20px] cursor-pointer text-[#9A9898] text-base '/>
+            :
+            <LuEye onClick={handleEye1} className='absolute top-[17px] right-[20px] cursor-pointer text-[#9A9898] text-base '/>
+            }
+            </div>
             {/* <p className='text-black text-sm font-medium font-mon pt-3 pb-5'>Forget Your Password?</p> */}
             {loader?
             <button>
@@ -230,8 +255,16 @@ const LoginReg = () => {
             
             <p className='text-black text-sm font-normal font-mon pb-2'>or use your email password</p>
             <input onChange={(e)=>setEmail2(e.target.value)} value={email2} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="text" placeholder='Email'/>
-            <input onChange={(e)=>setPassword2(e.target.value)} value={password2} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type="password" placeholder='Password'/>
-            <p className='text-black text-sm font-medium font-mon pt-3 pb-5'>Forget Your Password?</p>
+            <div className='relative w-full'>
+            <input onChange={(e)=>setPassword2(e.target.value)} value={password2} className='w-full bg-[#EEEEEE] py-1.5 px-5 my-2 rounded ' type={eye?"text":"password"} placeholder='Password'/>
+            {/* {eye?
+            <LuEyeOff onClick={handleEye2} className='absolute top-[17px] right-[20px] cursor-pointer text-[#9A9898] text-base '/>
+            :
+            <LuEye onClick={handleEye1} className='absolute top-[17px] right-[20px] cursor-pointer text-[#9A9898] text-base '/>
+            } */}
+            </div>
+            <Link to='/forgetpassword'><p className='text-black text-sm font-medium font-mon pt-3 pb-5 cursor-pointer'>Forget Your Password?</p></Link>
+            
             {loader?
             <button>
             <Bars
