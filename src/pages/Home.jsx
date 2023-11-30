@@ -1,36 +1,30 @@
-import React, { useEffect } from 'react'
-import { getAuth, signOut } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { activeuser } from '../slices/userSlice';
-
-
+import React from 'react'
+import Flex from '../components/Flex'
+import ChatComponent from '../components/ChatComponent'
+import PeopleComponent from '../components/PeopleComponent'
+import GroupComponent from '../components/GroupComponent'
+import FriendRequestComponent from '../components/FriendRequestComponent'
+import FriendsComponent from '../components/FriendsComponent'
+import BlockListComponent from '../components/BlockListComponent'
 
 const Home = () => {
-  let dispatch=useDispatch()
-  let data=useSelector((state)=>(state.sajib.value))
-  const auth = getAuth();
-  let navigate=useNavigate()
-  let handleLogOut=()=>{
-    signOut(auth).then(() => {
-      dispatch(activeuser(null))
-      localStorage.removeItem("users")
-      navigate('/')
-    }).catch((error) => {
-      // An error happened.
-    });
-
-  }
-  useEffect(()=>{
-    if(data==null){
-      navigate('/')
-    }
-
-  },[])
- 
   return (
-    <div>
-      <button onClick={handleLogOut} className='bg-red-500 py-2 px-10'>Log Out</button>
+    <div className='h-h95 w-full pr-8 '>
+     <Flex className='justify-between'>
+     <div>
+      <ChatComponent/>
+      <PeopleComponent/>
+      </div>
+      <div>
+      <GroupComponent/>
+      <FriendRequestComponent/>
+      </div>
+      <div>
+      <FriendsComponent/>
+      <BlockListComponent/>
+      </div>
+     </Flex>
+      
     </div>
   )
 }

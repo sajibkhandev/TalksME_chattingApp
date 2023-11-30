@@ -12,6 +12,10 @@ export default {
       },
       colors:{
         third:"#222222"
+      },
+       spacing: {
+        'h47': '47%',
+        'h95': '95%',
       }
     },
   },
