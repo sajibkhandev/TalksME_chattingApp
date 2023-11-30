@@ -10,6 +10,11 @@ import {
 import LoginReg from './pages/LoginReg';
 import Home from './pages/Home';
 import ForgetPassword from './pages/ForgetPassword';
+import RootLayouts from './components/RootLayouts';
+import Chat from './pages/Chat';
+import People from './pages/People';
+import Group from './pages/Group';
+import Friend from './pages/Friend';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,15 +22,35 @@ const router = createBrowserRouter(
     <Route
       path="/"
       element={<LoginReg />}>  
-      </Route>
-    <Route
-      path="/home"
-      element={<Home />}>  
-      </Route>
+    </Route>
     <Route
       path="/forgetpassword"
       element={<ForgetPassword />}>  
-      </Route>
+    </Route>
+    <Route
+      path="/"
+      element={<RootLayouts />}>  
+          <Route
+          path="home"
+          element={<Home />}>  
+          </Route>
+          <Route
+          path="chat"
+          element={<Chat />}>  
+          </Route>
+          <Route
+          path="group"
+          element={<Group />}>  
+          </Route>
+          <Route
+          path="friends"
+          element={<Friend />}>  
+          </Route>
+          <Route
+          path="people"
+          element={<People />}>  
+          </Route>
+    </Route>
     
    </>
   )

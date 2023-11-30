@@ -15,10 +15,7 @@ const Home = () => {
     signOut(auth).then(() => {
       dispatch(activeuser(null))
       localStorage.removeItem("users")
-
       navigate('/')
-
-      
     }).catch((error) => {
       // An error happened.
     });

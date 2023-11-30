@@ -7,7 +7,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'mon': ['Montserrat']
+        'mon': ['Montserrat'],
+        'int': ['Inter'],
+      },
+      colors:{
+        third:"#222222"
       }
     },
   },
