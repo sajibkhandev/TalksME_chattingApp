@@ -119,3 +119,21 @@
     background-color: transparent !important;
     border-color: #fff !important;
 }
+/* .common::-webkit-slider-thumb{
+    width: 4px !important;
+    background: blue !important;
+    margin-right: 30px !important;
+    border-radius: 30px !important;
+    padding-right: 10px !important;
+    margin-bottom: 30px !important;
+    
+}
+.common::-webkit-scrollbar{
+    width: 4px !important;
+    background: blue !important;
+    margin-right: 30px !important;
+    border-radius: 30px !important;
+    padding-right: 10px !important;
+    margin-bottom: 50px !important;
+
+} */

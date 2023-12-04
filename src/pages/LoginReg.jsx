@@ -10,9 +10,11 @@ import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword,send
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { activeuser } from '../slices/userSlice';
+import { getDatabase, ref, set } from "firebase/database";
 
 const LoginReg = () => {
   const auth = getAuth();
+  const db = getDatabase();
   let dispatch=useDispatch()
   let data=useSelector((state)=>(state.sajib.value))
 
@@ -68,9 +70,14 @@ const LoginReg = () => {
       setLoader(true)
       createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-    console.log(userCredential);
+    console.log(userCredential.user.uid);
     sendEmailVerification(auth.currentUser)
   .then(() => {
+    set(ref(db, 'alluser/'+userCredential.user.uid), {
+      username: name,
+      email: userCredential.user.email,
+      profile_picture : "https://firebasestorage.googleapis.com/v0/b/talksme-fa7a7.appspot.com/o/profileImage.jpg?alt=media&token=55bc00e5-a893-44fa-b059-1afc35e0ada6"
+    });
     setEmail("")
     setName("")
     setPassword("")
@@ -141,6 +148,8 @@ const LoginReg = () => {
   });
     }
   }
+
+
   let hangleGoogle1=()=>{
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -154,6 +163,8 @@ const LoginReg = () => {
     console.log(errorCode);
   });
   }
+
+  
   let handleGoogle2=()=>{
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)

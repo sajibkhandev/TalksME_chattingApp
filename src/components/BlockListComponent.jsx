@@ -20,6 +20,7 @@ const BlockListComponent = () => {
         </div>
     </div>
    {/* user More */}
+   <div className=' common overflow-y-scroll h-[220px]'>
    <div className='box  flex justify-between items-center py-3'>
             <div className='flex gap-x-3 items-center'>
             <Image src={profile} className='h-12 w-12 rounded-full'/>
@@ -58,6 +59,35 @@ const BlockListComponent = () => {
             <button className='text-sm bg-[#647FE8] py-1 px-3 text-white rounded font-int font-normal'>Unblock</button>
         </div>
        {/* user More */}
+   {/* user More */}
+   <div className='box  flex justify-between items-center py-3'>
+            <div className='flex gap-x-3 items-center'>
+            <Image src={profile} className='h-12 w-12 rounded-full'/>
+            <div>
+                <h6 className='text-lg text-black font-int font-semibold'>Jenny Wilson</h6>
+                <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
+            </div>
+            </div>
+            
+            <button className='text-sm bg-[#647FE8] py-1 px-3 text-white rounded font-int font-normal'>Unblock</button>
+        </div>
+       {/* user More */}
+   {/* user More */}
+   <div className='box  flex justify-between items-center py-3'>
+            <div className='flex gap-x-3 items-center'>
+            <Image src={profile} className='h-12 w-12 rounded-full'/>
+            <div>
+                <h6 className='text-lg text-black font-int font-semibold'>Jenny Wilson</h6>
+                <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
+            </div>
+            </div>
+            
+            <button className='text-sm bg-[#647FE8] py-1 px-3 text-white rounded font-int font-normal'>Unblock</button>
+        </div>
+       {/* user More */}
+
+   </div>
+   
        
      
   

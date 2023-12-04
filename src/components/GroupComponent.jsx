@@ -20,7 +20,8 @@ const GroupComponent = () => {
         <CiSearch className='absolute top-[10px] left-[62px]'/>
         </div>
     </div>
-    {/* user More */}
+    <div className='common overflow-y-scroll h-[220px]'>
+        {/* user More */}
     <div className='box  flex justify-between items-center py-3'>
             <div className='flex gap-x-3 items-center'>
             <Image src={profile} className='h-12 w-12 rounded-full'/>
@@ -74,6 +75,43 @@ const GroupComponent = () => {
             <button className='text-xs text-[#657DE9] font-int font-normal'>10:30 PM</button>
         </div>
        {/* user More */}
+       {/* user More */}
+       <div className='box  flex justify-between items-center py-3'>
+            <div className='flex gap-x-3 items-center'>
+            <Image src={profile} className='h-12 w-12 rounded-full'/>
+            <div>
+                <h6 className='text-lg text-black font-int font-semibold'>Jenny Wilson</h6>
+                <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
+            </div>
+            </div>
+            <div className='flex gap-x-2 items-center'>
+            <FaWifi className='text-blue-500 text-sm'/>
+            <BiMessageAdd  className='text-sm text-[#84CEF0]'/>
+            <LuEye  className='text-sm text-blue-500'/>
+
+            </div>
+            <button className='text-xs text-[#657DE9] font-int font-normal'>10:30 PM</button>
+        </div>
+       {/* user More */}
+       {/* user More */}
+       <div className='box  flex justify-between items-center py-3'>
+            <div className='flex gap-x-3 items-center'>
+            <Image src={profile} className='h-12 w-12 rounded-full'/>
+            <div>
+                <h6 className='text-lg text-black font-int font-semibold'>Jenny Wilson</h6>
+                <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
+            </div>
+            </div>
+            <div className='flex gap-x-2 items-center'>
+            <FaWifi className='text-blue-500 text-sm'/>
+            <BiMessageAdd  className='text-sm text-[#84CEF0]'/>
+            <LuEye  className='text-sm text-blue-500'/>
+
+            </div>
+            <button className='text-xs text-[#657DE9] font-int font-normal'>10:30 PM</button>
+        </div>
+       {/* user More */}
+    </div>
   
 
    

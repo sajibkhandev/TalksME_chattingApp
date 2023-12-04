@@ -19,7 +19,8 @@ const FriendsComponent = () => {
         <CiSearch className='absolute top-[10px] left-[62px]'/>
         </div>
     </div>
-   {/* user More */}
+   <div className='common overflow-y-scroll h-[220px]'>
+    {/* user More */}
    <div className='box  flex  justify-between items-center py-3'>
             <div className='flex gap-x-3 items-center'>
             <Image src={profile} className='h-12 w-12 rounded-full'/>
@@ -64,6 +65,37 @@ const FriendsComponent = () => {
             <BsThreeDotsVertical  className='text-sm'/>
         </div>
        {/* user More */}
+   {/* user More */}
+   <div className='box  flex  justify-between items-center py-3'>
+            <div className='flex gap-x-3 items-center'>
+            <Image src={profile} className='h-12 w-12 rounded-full'/>
+            <div>
+                <h6 className='text-lg text-black font-int font-semibold'>Jenny Wilson</h6>
+                <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
+            </div>
+            </div>
+            <div className=' h-full'>
+            <div className='w-[80px] h-[4px] bg-[#f0f7fe] rounded-md'></div>
+            </div>
+            <BsThreeDotsVertical  className='text-sm'/>
+        </div>
+       {/* user More */}
+   {/* user More */}
+   <div className='box  flex  justify-between items-center py-3'>
+            <div className='flex gap-x-3 items-center'>
+            <Image src={profile} className='h-12 w-12 rounded-full'/>
+            <div>
+                <h6 className='text-lg text-black font-int font-semibold'>Jenny Wilson</h6>
+                <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
+            </div>
+            </div>
+            <div className=' h-full'>
+            <div className='w-[80px] h-[4px] bg-[#f0f7fe] rounded-md'></div>
+            </div>
+            <BsThreeDotsVertical  className='text-sm'/>
+        </div>
+       {/* user More */}
+   </div>
 </div>
   )
 }
