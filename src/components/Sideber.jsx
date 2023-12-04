@@ -40,7 +40,7 @@ const Sideber = () => {
       },[])
     
     return (
-        <div className='bg-[#E0E6FB] h-screen w-[180px]'>
+        <div className='bg-[#E0E6FB] border-r-[3px] border-solid border-white rounded h-screen w-[180px]'>
         <div className='flex flex-col items-center justify-around h-full'>
            <div>
            <div className='w-[100px] h-[114px] bg-[#FFFFFF] rounded-lg flex flex-col items-center drop-shadow-xl'>

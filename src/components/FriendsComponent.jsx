@@ -8,7 +8,7 @@ import { BiMessageAdd } from "react-icons/bi";
 
 const FriendsComponent = () => {
   return (
-    <div className='w-[400px] h-h47 bg-[#E2E9FB] mt-[26px] px-4 rounded-md drop-shadow-sm'>
+    <div className='w-[400px] border-[3px] border-solid border-white h-h47 bg-[#E2E9FB] mt-[24px] px-4 rounded-lg drop-shadow-sm'>
     <div>
        <div className='relative'>
        <h3 className='text-2xl text-black font-semibold font-int pt-4 pb-3 px-3'>Friends</h3>
@@ -20,7 +20,7 @@ const FriendsComponent = () => {
         </div>
     </div>
    {/* user More */}
-   <div className='box  flex justify-between items-center py-3'>
+   <div className='box  flex  justify-between items-center py-3'>
             <div className='flex gap-x-3 items-center'>
             <Image src={profile} className='h-12 w-12 rounded-full'/>
             <div>
@@ -28,16 +28,14 @@ const FriendsComponent = () => {
                 <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
             </div>
             </div>
-            <div className='flex gap-x-1.5 items-center'>
-            <FaWifi className='text-blue-500 text-sm'/>
-            <BiMessageAdd age className='text-sm text-[#84CEF0]'/>
-
+            <div className=' h-full'>
+            <div className='w-[80px] h-[4px] bg-[#f0f7fe] rounded-md'></div>
             </div>
-            <button className='text-xs text-[#657DE9] font-int font-normal'>10:30 PM</button>
+            <BsThreeDotsVertical  className='text-sm'/>
         </div>
        {/* user More */}
-       {/* user More */}
-       <div className='box  flex justify-between items-center py-3'>
+   {/* user More */}
+   <div className='box  flex  justify-between items-center py-3'>
             <div className='flex gap-x-3 items-center'>
             <Image src={profile} className='h-12 w-12 rounded-full'/>
             <div>
@@ -45,16 +43,14 @@ const FriendsComponent = () => {
                 <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
             </div>
             </div>
-            <div className='flex gap-x-1.5 items-center'>
-            <FaWifi className='text-blue-500 text-sm'/>
-            <BiMessageAdd age className='text-sm text-[#84CEF0]'/>
-
+            <div className=' h-full'>
+            <div className='w-[80px] h-[4px] bg-[#f0f7fe] rounded-md'></div>
             </div>
-            <button className='text-xs text-[#657DE9] font-int font-normal'>10:30 PM</button>
+            <BsThreeDotsVertical  className='text-sm'/>
         </div>
        {/* user More */}
-       {/* user More */}
-       <div className='box  flex justify-between items-center py-3'>
+   {/* user More */}
+   <div className='box  flex  justify-between items-center py-3'>
             <div className='flex gap-x-3 items-center'>
             <Image src={profile} className='h-12 w-12 rounded-full'/>
             <div>
@@ -62,17 +58,12 @@ const FriendsComponent = () => {
                 <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
             </div>
             </div>
-            <div className='flex gap-x-1.5 items-center'>
-            <FaWifi className='text-blue-500 text-sm'/>
-            <BiMessageAdd age className='text-sm text-[#84CEF0]'/>
-
+            <div className=' h-full'>
+            <div className='w-[80px] h-[4px] bg-[#f0f7fe] rounded-md'></div>
             </div>
-            <button className='text-xs text-[#657DE9] font-int font-normal'>10:30 PM</button>
+            <BsThreeDotsVertical  className='text-sm'/>
         </div>
        {/* user More */}
-  
-
-   
 </div>
   )
 }

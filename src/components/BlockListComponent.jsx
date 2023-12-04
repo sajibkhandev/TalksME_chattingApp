@@ -8,7 +8,7 @@ import { BiMessageAdd } from "react-icons/bi";
 
 const BlockListComponent = () => {
   return (
-    <div className='w-[400px] h-h47 bg-[#E2E9FB] mt-[26px] px-4 rounded-md drop-shadow-sm'>
+    <div className='w-[400px] border-[3px] border-solid border-white h-h47 bg-[#E2E9FB] mt-[26px] px-4 rounded-md drop-shadow-sm'>
     <div>
        <div className='relative'>
        <h3 className='text-2xl text-black font-semibold font-int pt-4 pb-3 px-3'>Block List</h3>
@@ -28,16 +28,12 @@ const BlockListComponent = () => {
                 <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
             </div>
             </div>
-            <div className='flex gap-x-1.5 items-center'>
-            <FaWifi className='text-blue-500 text-sm'/>
-            <BiMessageAdd age className='text-sm text-[#84CEF0]'/>
-
-            </div>
-            <button className='text-xs text-[#657DE9] font-int font-normal'>10:30 PM</button>
+            
+            <button className='text-sm bg-[#647FE8] py-1 px-3 text-white rounded font-int font-normal'>Unblock</button>
         </div>
        {/* user More */}
-       {/* user More */}
-       <div className='box  flex justify-between items-center py-3'>
+   {/* user More */}
+   <div className='box  flex justify-between items-center py-3'>
             <div className='flex gap-x-3 items-center'>
             <Image src={profile} className='h-12 w-12 rounded-full'/>
             <div>
@@ -45,16 +41,12 @@ const BlockListComponent = () => {
                 <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
             </div>
             </div>
-            <div className='flex gap-x-1.5 items-center'>
-            <FaWifi className='text-blue-500 text-sm'/>
-            <BiMessageAdd age className='text-sm text-[#84CEF0]'/>
-
-            </div>
-            <button className='text-xs text-[#657DE9] font-int font-normal'>10:30 PM</button>
+            
+            <button className='text-sm bg-[#647FE8] py-1 px-3 text-white rounded font-int font-normal'>Unblock</button>
         </div>
        {/* user More */}
-       {/* user More */}
-       <div className='box  flex justify-between items-center py-3'>
+   {/* user More */}
+   <div className='box  flex justify-between items-center py-3'>
             <div className='flex gap-x-3 items-center'>
             <Image src={profile} className='h-12 w-12 rounded-full'/>
             <div>
@@ -62,14 +54,12 @@ const BlockListComponent = () => {
                 <p className='text-sm text-[#657DE9] font-int font-normal'>Love You.....</p>
             </div>
             </div>
-            <div className='flex gap-x-1.5 items-center'>
-            <FaWifi className='text-blue-500 text-sm'/>
-            <BiMessageAdd age className='text-sm text-[#84CEF0]'/>
-
-            </div>
-            <button className='text-xs text-[#657DE9] font-int font-normal'>10:30 PM</button>
+            
+            <button className='text-sm bg-[#647FE8] py-1 px-3 text-white rounded font-int font-normal'>Unblock</button>
         </div>
        {/* user More */}
+       
+     
   
 
    

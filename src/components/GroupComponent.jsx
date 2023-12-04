@@ -9,7 +9,7 @@ import { LuEye } from "react-icons/lu";
 
 const GroupComponent = () => {
   return (
-    <div className='w-[400px] h-h47 bg-[#E2E9FB] mt-[26px] px-4 rounded-md drop-shadow'>
+    <div className='w-[400px] border-[3px] border-solid border-white h-h47 bg-[#E2E9FB] mt-[24px] px-4 rounded-md drop-shadow'>
     <div>
        <div className='relative'>
        <h3 className='text-2xl text-black font-semibold font-int pt-4 pb-3 px-3'>Group</h3>
