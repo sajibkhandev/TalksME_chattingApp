@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Image from './Image'
-import profile from '../assets/profile1.png'
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
-import { FaWifi } from "react-icons/fa";
-import { BiMessageAdd } from "react-icons/bi";
 import { getDatabase, ref, onValue } from "firebase/database";
 
 const PeopleComponent = () => {
