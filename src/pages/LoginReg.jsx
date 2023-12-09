@@ -6,11 +6,12 @@ import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 
 
-import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword,sendEmailVerification,signInWithPopup, GoogleAuthProvider,updateProfile } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { activeuser } from '../slices/userSlice';
 import { getDatabase, ref, set } from "firebase/database";
+
 
 const LoginReg = () => {
   const auth = getAuth();
@@ -70,7 +71,10 @@ const LoginReg = () => {
       setLoader(true)
       createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-    console.log(userCredential.user.uid);
+    updateProfile(auth.currentUser, {
+      displayName: name, photoURL: "https://firebasestorage.googleapis.com/v0/b/talksme-fa7a7.appspot.com/o/profileImage.jpg?alt=media&token=55bc00e5-a893-44fa-b059-1afc35e0ada6"
+    }).then(() => {
+      console.log(userCredential);
     sendEmailVerification(auth.currentUser)
   .then(() => {
     set(ref(db, 'alluser/'+userCredential.user.uid), {
@@ -90,6 +94,9 @@ const LoginReg = () => {
     }
     // for responseive
   });
+    })
+
+    
   })
   .catch((error) => {
     const errorCode = error.code;
@@ -240,7 +247,7 @@ const LoginReg = () => {
               />
             </button>
             :
-            <button onClick={()=>handleSignupForm("")}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mt-4'>Sign Up</button>
+            <button onClick={()=>handleSignupForm("")}  className='bg-[#512DA7] py-2 px-8 text-white text-base font-mon font-semibold rounded-md mt-4'>Sign Up </button>
             }
             
             </div>
