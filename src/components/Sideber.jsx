@@ -1,4 +1,4 @@
-import React, { useEffect,useState, createRef  } from 'react'
+import React, { useEffect,createRef} from 'react'
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import profileImg from '../assets/profileImg.png'
@@ -12,11 +12,16 @@ import { LuBarChartHorizontal } from "react-icons/lu";
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { activeuser } from '../slices/userSlice';
-import Cropper from "react-cropper";
-import "cropperjs/dist/cropper.css";
-
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import Cropper from "react-cropper";
+import "cropperjs/dist/cropper.css";
+import { useState } from 'react';
+
+
+
+const defaultSrc =
+  "https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
 
 const customStyles = {
   content: {
@@ -29,38 +34,38 @@ const customStyles = {
   },
 };
 
-const defaultSrc =
-  "https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
+
 
 const Sideber = () => {
      let location=useLocation()
      let active=location.pathname.replace("/","")
 
      let dispatch=useDispatch()
-  let data=useSelector((state)=>(state.sajib.value))
+      let data=useSelector((state)=>(state.sajib.value))
+      const auth = getAuth();
+      let navigate=useNavigate()
 
-    const [image, setImage] = useState(defaultSrc);
+      const [image, setImage] = useState(defaultSrc);
   const [cropData, setCropData] = useState("#");
   const cropperRef = createRef();
 
-  let subtitle;
-  const [modalIsOpen, setIsOpen] = React.useState(false);
 
-  function openModal() {
-    setIsOpen(true);
-  }
+  // modal state
+    let subtitle;
+    const [modalIsOpen, setIsOpen] = React.useState(false);
 
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = '#f00';
-  }
+    function openModal() {
+      setIsOpen(true);
+    }
 
-  function closeModal() {
-    setIsOpen(false);
-  }
-  
-  const auth = getAuth();
-  let navigate=useNavigate()
+    function afterOpenModal() {
+      // references are now sync'd and can be accessed.
+      subtitle.style.color = '#f00';
+    }
+
+    function closeModal() {
+      setIsOpen(false);
+    }
   let handleLogOut=()=>{
     signOut(auth).then(() => {
       dispatch(activeuser(null))
@@ -71,6 +76,29 @@ const Sideber = () => {
     });
 
   }
+
+   const onChange = (e) => {
+    e.preventDefault();
+    let files;
+    if (e.dataTransfer) {
+      files = e.dataTransfer.files;
+    } else if (e.target) {
+      files = e.target.files;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImage(reader.result);
+    };
+    reader.readAsDataURL(files[0]);
+  };
+
+  const getCropData = () => {
+    if (typeof cropperRef.current?.cropper !== "undefined") {
+      setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
+      console.log(cropperRef.current?.cropper.getCroppedCanvas().toDataURL())
+      ;
+    }
+  };
 
      useEffect(()=>{
         if(data==null){
@@ -84,42 +112,36 @@ const Sideber = () => {
         <div className='flex flex-col items-center justify-around h-full'>
            <div>
            <div  className='w-[100px] h-[114px] bg-[#FFFFFF] rounded-lg flex flex-col items-center drop-shadow-xl'>
-                <div onClick={openModal} className='relative'>
+                <div className='relative' onClick={openModal}>
                     <Image  src={profileImg} className='rounded-full w-[52px] h-[52px] mt-4'/>
                     <BiLogoLinkedinSquare  className=' border-0 absolute -bottom-[3px] -right-[6px] bg-white text-[#0D63C6]'/>
                 </div>
 
                
                 <div className='w-[68px] h-[6px] rounded bg-[#F1F2F6] mt-2.5'></div>
-                <p  onClick={openModal} className='font-mon font-bold text-black text-xs pt-1.5 cursor-pointer'>Sajib Khan</p>
+                <p onClick={openModal}   className='font-mon font-bold text-black text-xs pt-1.5 cursor-pointer'>Sajib Khan</p>
                         
                
             </div>
-
-            {/* Modal */}
-            <Modal
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-      <div className='w-[450px]'>
-
-      <h2 ref={(_subtitle) => (subtitle = _subtitle)}>
-         Upload Your Profile</h2>
-        {/* <div>I am a modal</div> */}
-        <div className='w-[100px] h-[100px] overflow-hidden rounded-full'>
-        <div
-            className="img-preview w-[100px] h-[100px] rounded-full "
+            {/* Modal start */}
            
-          />
-        </div>
-        
-        
-        <form>
-          <input type='file'/>
-          <Cropper
+            <Modal
+            isOpen={modalIsOpen}
+            onAfterOpen={afterOpenModal}
+            onRequestClose={closeModal}
+            style={customStyles}
+            contentLabel="Example Modal"
+          >
+            <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Update Your Profile</h2>
+            
+             <div className='w-[300px] h-[100px] rounded-full overflow-hidden'>
+              <div
+            className="img-preview w-[300px] h-[100px] rounded-full overflow-hidden"
+            />
+             </div>
+              <input type='file' onChange={onChange}/>
+               <div className='w-[450px]'>
+                <Cropper
           ref={cropperRef}
           style={{ height: 400, width: "100%" }}
           zoomTo={0.5}
@@ -134,14 +156,17 @@ const Sideber = () => {
           autoCropArea={1}
           checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
           guides={true}
-        />
-        
-        <button onClick={closeModal}>close</button>
-        </form>
-      </div>
-      </Modal>
+          />
+               </div>
+            <button onClick={closeModal}>close</button>
+            <button onClick={getCropData} className='bg-red-500 py-1 px-4 rounded-md'>Upload</button>
+             
+           
+          </Modal>
+            {/* Modal start */}
+          
 
-            {/* Modal */}
+           
             <div className='flex flex-col gap-y-8 items-center mt-14'>
             <Link to='/home' className={active=="home"?"bg-[#2F5DE6] text-white rounded-md  py-2 px-4 w-[110px]":""}>
             <div className='flex items-center gap-x-1.5  text-lg font-medium font-int '><TiHomeOutline  className='text-lg'/> Home</div>
