@@ -1,5 +1,6 @@
 import React, { useEffect,createRef} from 'react'
-import { getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut,updateProfile  } from "firebase/auth";
+import { getStorage, ref, uploadString,getDownloadURL } from "firebase/storage";
 import { useNavigate } from 'react-router-dom';
 import profileImg from '../assets/profileImg.png'
 import Image from '../components/Image'
@@ -17,11 +18,12 @@ import Modal from 'react-modal';
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { useState } from 'react';
+import { Dna } from 'react-loader-spinner'
 
 
 
-const defaultSrc =
-  "https://raw.githubusercontent.com/roadmanfong/react-cropper/master/example/img/child.jpg";
+
+
 
 const customStyles = {
   content: {
@@ -37,6 +39,8 @@ const customStyles = {
 
 
 const Sideber = () => {
+  const storage = getStorage();
+
      let location=useLocation()
      let active=location.pathname.replace("/","")
 
@@ -45,7 +49,9 @@ const Sideber = () => {
       const auth = getAuth();
       let navigate=useNavigate()
 
-      const [image, setImage] = useState(defaultSrc);
+      let [loader,setLoader]=useState(false)
+
+      const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("#");
   const cropperRef = createRef();
 
@@ -93,9 +99,27 @@ const Sideber = () => {
   };
 
   const getCropData = () => {
+    setLoader(true)
     if (typeof cropperRef.current?.cropper !== "undefined") {
-      setCropData(cropperRef.current?.cropper.getCroppedCanvas().toDataURL());
-      console.log(cropperRef.current?.cropper.getCroppedCanvas().toDataURL())
+      const storageRef = ref(storage, data.uid);
+      uploadString(storageRef, cropperRef.current?.cropper.getCroppedCanvas().toDataURL(), 'data_url').then((snapshot) => {
+        console.log('Uploaded a data_url string!',snapshot);
+        getDownloadURL(storageRef).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+          updateProfile(auth.currentUser, {
+            photoURL: downloadURL
+          }).then(()=>{
+            console.log("sajib");
+            localStorage.setItem("users",JSON.stringify({...data,photoURL:downloadURL}))
+            dispatch(activeuser({...data,photoURL:downloadURL}))
+            setImage("")
+            setLoader(false)
+
+
+          })
+        });
+      });
+
       ;
     }
   };
@@ -113,7 +137,7 @@ const Sideber = () => {
            <div>
            <div  className='w-[100px] h-[114px] bg-[#FFFFFF] rounded-lg flex flex-col items-center drop-shadow-xl'>
                 <div className='relative' onClick={openModal}>
-                    <Image  src={profileImg} className='rounded-full w-[52px] h-[52px] mt-4'/>
+                    <Image  src={data.photoURL} className='rounded-full w-[52px] h-[52px] mt-4'/>
                     <BiLogoLinkedinSquare  className=' border-0 absolute -bottom-[3px] -right-[6px] bg-white text-[#0D63C6]'/>
                 </div>
 
@@ -134,32 +158,70 @@ const Sideber = () => {
           >
             <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Update Your Profile</h2>
             
-             <div className='w-[300px] h-[100px] rounded-full overflow-hidden'>
-              <div
-            className="img-preview w-[300px] h-[100px] rounded-full overflow-hidden"
-            />
-             </div>
+             {image?
+             <div className='w-[100px] h-[100px] rounded-full overflow-hidden bg-[#a9a9a9]'>
+             <div
+           className="img-preview w-[100px] h-[100px] "
+           />
+            </div>
+             :
+             <img className='w-[100px] h-[100px] rounded-full' src={data.photoURL} alt="" />
+             }
               <input type='file' onChange={onChange}/>
-               <div className='w-[450px]'>
-                <Cropper
-          ref={cropperRef}
-          style={{ height: 400, width: "100%" }}
-          zoomTo={0.5}
-          initialAspectRatio={1}
-          preview=".img-preview"
-          src={image}
-          viewMode={1}
-          minCropBoxHeight={10}
-          minCropBoxWidth={10}
-          background={false}
-          responsive={true}
-          autoCropArea={1}
-          checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-          guides={true}
-          />
-               </div>
-            <button onClick={closeModal}>close</button>
+             {image&&
+             
+             <div className='w-[450px]'>
+             <Cropper
+             ref={cropperRef}
+             style={{ height: 400, width: "100%" }}
+             zoomTo={0.5}
+             initialAspectRatio={1}
+             preview=".img-preview"
+             src={image}
+             viewMode={1}
+             minCropBoxHeight={10}
+             minCropBoxWidth={10}
+             background={false}
+             responsive={true}
+             autoCropArea={1}
+             checkOrientation={false} 
+             guides={true}
+             />
+            </div>
+
+             }
+             {
+              image&&
+              loader?
+              <button className='buttonForLoder'>
+              <Dna
+                  visible={true}
+                  height="60"
+                  width="80"
+                  ariaLabel="dna-loading"
+                  wrapperStyle={{padding:'px 0px',
+                  color:'red',
+                  width:'100%',
+                  borderRadius:"86px",
+                  background:"wheat",
+                  fontSize:'20px',
+                  fontFamily:"Nunito",
+                  fontWeight:"600",
+                  textTransform:"capitalize",
+                  marginTop:"40px",
+                  marginLeft:"60px"
+                }}
+                  wrapperClass="dna-wrapper"
+                 />
+              </button>
+              :
+            <div>
+              <button onClick={closeModal}>close</button>
             <button onClick={getCropData} className='bg-red-500 py-1 px-4 rounded-md'>Upload</button>
+            </div>
+
+             }
+               
              
            
           </Modal>

@@ -72,7 +72,7 @@ const LoginReg = () => {
       createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     updateProfile(auth.currentUser, {
-      displayName: name, photoURL: "https://firebasestorage.googleapis.com/v0/b/talksme-fa7a7.appspot.com/o/profileImage.jpg?alt=media&token=55bc00e5-a893-44fa-b059-1afc35e0ada6"
+      displayName: name, photoURL: "https://firebasestorage.googleapis.com/v0/b/talksme-fa7a7.appspot.com/o/profileImage.jpg?alt=media&token=8a57c37b-8993-4ebc-a9ac-24b68a35e55b"
     }).then(() => {
       console.log(userCredential);
     sendEmailVerification(auth.currentUser)
@@ -80,7 +80,7 @@ const LoginReg = () => {
     set(ref(db, 'alluser/'+userCredential.user.uid), {
       username: name,
       email: userCredential.user.email,
-      profile_picture : "https://firebasestorage.googleapis.com/v0/b/talksme-fa7a7.appspot.com/o/profileImage.jpg?alt=media&token=55bc00e5-a893-44fa-b059-1afc35e0ada6"
+      profile_picture : "https://firebasestorage.googleapis.com/v0/b/talksme-fa7a7.appspot.com/o/profileImage.jpg?alt=media&token=8a57c37b-8993-4ebc-a9ac-24b68a35e55b"
     });
     setEmail("")
     setName("")
