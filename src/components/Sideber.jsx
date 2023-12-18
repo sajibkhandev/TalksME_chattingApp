@@ -19,6 +19,7 @@ import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { useState } from 'react';
 import { Dna } from 'react-loader-spinner'
+import { Bars } from 'react-loader-spinner'
 
 
 
@@ -50,6 +51,7 @@ const Sideber = () => {
       let navigate=useNavigate()
 
       let [loader,setLoader]=useState(false)
+      let [condition,setCondition]=useState(true)
 
       const [image, setImage] = useState("");
   const [cropData, setCropData] = useState("#");
@@ -62,11 +64,12 @@ const Sideber = () => {
 
     function openModal() {
       setIsOpen(true);
+      setCondition(true)
     }
 
     function afterOpenModal() {
       // references are now sync'd and can be accessed.
-      subtitle.style.color = '#f00';
+      subtitle.style.color = '#000';
     }
 
     function closeModal() {
@@ -114,6 +117,7 @@ const Sideber = () => {
             dispatch(activeuser({...data,photoURL:downloadURL}))
             setImage("")
             setLoader(false)
+            setCondition(false)
 
 
           })
@@ -135,97 +139,95 @@ const Sideber = () => {
         <div className='bg-[#E0E6FB] border-r-[3px] border-solid border-white rounded h-screen w-[180px]'>
         <div className='flex flex-col items-center justify-around h-full'>
            <div>
-           <div  className='w-[100px] h-[114px] bg-[#FFFFFF] rounded-lg flex flex-col items-center drop-shadow-xl'>
+           <div  className='w-[120px] h-[134px] bg-[#FFFFFF] border-[4px] border-solid border-[#F0F3FD] rounded-xl flex flex-col items-center drop-shadow-2xl'>
                 <div className='relative' onClick={openModal}>
-                    <Image  src={data.photoURL} className='rounded-full w-[52px] h-[52px] mt-4'/>
-                    <BiLogoLinkedinSquare  className=' border-0 absolute -bottom-[3px] -right-[6px] bg-white text-[#0D63C6]'/>
+                    <Image  src={data.photoURL} className='rounded-full w-[65px] h-[65px] mt-4'/>
+                  
                 </div>
 
                
-                <div className='w-[68px] h-[6px] rounded bg-[#F1F2F6] mt-2.5'></div>
-                <p onClick={openModal}   className='font-mon font-bold text-black text-xs pt-1.5 cursor-pointer'>Sajib Khan</p>
+                <div className=''></div>
+                <p onClick={openModal} className='font-mon font-bold text-[#647FE8] pt-2 text-sm rounded-md cursor-pointer bg-'>Sajib Khan</p>
                         
                
             </div>
-            {/* Modal start */}
+            {condition&&
            
-            <Modal
-            isOpen={modalIsOpen}
-            onAfterOpen={afterOpenModal}
-            onRequestClose={closeModal}
-            style={customStyles}
-            contentLabel="Example Modal"
-          >
-            <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Update Your Profile</h2>
+           <Modal
+           isOpen={modalIsOpen}
+           onAfterOpen={afterOpenModal}
+           onRequestClose={closeModal}
+           style={customStyles}
+           contentLabel="Example Modal"
+         >
+           <h2 className='text-black text-lg font-normal mb-3' ref={(_subtitle) => (subtitle = _subtitle)}>Update Your Profile</h2>
+           
+            {image?
+            <div className='w-[100px] h-[100px] rounded-full overflow-hidden bg-[#a9a9a9]'>
+            <div
+          className="img-preview w-[100px] h-[100px] "
+          />
+           </div>
+            :
+            <img className='w-[100px] h-[100px] rounded-full' src={data.photoURL} alt="" />
+            }
+             <input className='mt-3' type='file' onChange={onChange}/>
+            {image&&
             
-             {image?
-             <div className='w-[100px] h-[100px] rounded-full overflow-hidden bg-[#a9a9a9]'>
-             <div
-           className="img-preview w-[100px] h-[100px] "
-           />
-            </div>
-             :
-             <img className='w-[100px] h-[100px] rounded-full' src={data.photoURL} alt="" />
-             }
-              <input type='file' onChange={onChange}/>
-             {image&&
-             
-             <div className='w-[450px]'>
-             <Cropper
-             ref={cropperRef}
-             style={{ height: 400, width: "100%" }}
-             zoomTo={0.5}
-             initialAspectRatio={1}
-             preview=".img-preview"
-             src={image}
-             viewMode={1}
-             minCropBoxHeight={10}
-             minCropBoxWidth={10}
-             background={false}
-             responsive={true}
-             autoCropArea={1}
-             checkOrientation={false} 
-             guides={true}
+            <div className='w-[450px]'>
+            <Cropper
+            ref={cropperRef}
+            style={{ height: 400, width: "100%" }}
+            zoomTo={0.5}
+            initialAspectRatio={1}
+            preview=".img-preview"
+            src={image}
+            viewMode={1}
+            minCropBoxHeight={10}
+            minCropBoxWidth={10}
+            background={false}
+            responsive={true}
+            autoCropArea={1}
+            checkOrientation={false} 
+            guides={true}
+            />
+           </div>
+
+            }
+            {
+             image&&
+             (loader?
+             <button className='buttonForLoder'>
+               <Bars
+               height="50"
+               width="100"
+               color="blue"
+               ariaLabel="bars-loading"
+               wrapperStyle={{
+               marginTop:"15px",
+               padding:'px 0px',
+                 
+                 marginTop:"20px",
+                 marginLeft:"180px" 
+               }}
+               wrapperClass=""
+               visible={true}
              />
-            </div>
+             </button>
+             :
+           <div className='text-center flex justify-center gap-x-2 mt-4'>
+             <button onClick={closeModal} className='bg-blue-500 py-1.5 text-base text-white px-4 rounded-md'>Close</button>
+           <button onClick={getCropData} className='bg-red-500 py-1.5 text-base text-white px-4 rounded-md'>Upload</button>
+           </div>)
 
-             }
-             {
-              image&&
-              loader?
-              <button className='buttonForLoder'>
-              <Dna
-                  visible={true}
-                  height="60"
-                  width="80"
-                  ariaLabel="dna-loading"
-                  wrapperStyle={{padding:'px 0px',
-                  color:'red',
-                  width:'100%',
-                  borderRadius:"86px",
-                  background:"wheat",
-                  fontSize:'20px',
-                  fontFamily:"Nunito",
-                  fontWeight:"600",
-                  textTransform:"capitalize",
-                  marginTop:"40px",
-                  marginLeft:"60px"
-                }}
-                  wrapperClass="dna-wrapper"
-                 />
-              </button>
-              :
-            <div>
-              <button onClick={closeModal}>close</button>
-            <button onClick={getCropData} className='bg-red-500 py-1 px-4 rounded-md'>Upload</button>
-            </div>
-
-             }
-               
-             
+            }
+              
+            
+          
+         </Modal>
            
-          </Modal>
-            {/* Modal start */}
+            }
+            
           
 
            
